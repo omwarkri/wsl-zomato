@@ -16,8 +16,15 @@ spec:
     spec:
       containers:
         - name: awsconfig-app
-          image: omwarkri123/awsconfig-app:latest   # 👈 your Docker Hub image
+          image: omwarkri123/awsconfig-app:latest
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 3000
-
+          volumeMounts:
+            - name: app-code
+              mountPath: /app          # the folder inside the container
+      volumes:
+        - name: app-code
+          hostPath:
+            path: /home/om/awsconfig  # path to your local project on your system
+            type: Directory
