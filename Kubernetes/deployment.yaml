@@ -17,7 +17,7 @@ spec:
       containers:
         - name: awsconfig-app
           image: omwarkri123/awsconfig-app:latest   # 👈 your Docker Hub image
-          imagePullPolicy: Always
+          imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 3000
 
