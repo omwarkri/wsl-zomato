@@ -30,7 +30,7 @@ const Cities = () => {
         </div>
         <div className="city">
           <div className="cityLeft">
-            <h3>Gurukul</h3>
+            <h3>Thane</h3>
             <span>83 Places</span>
           </div>
           <div className="icon">
@@ -57,7 +57,7 @@ const Cities = () => {
         </div>
         <div className="city">
           <div className="cityLeft">
-            <h3>Thaltej</h3>
+            <h3>Mumbai</h3>
             <span>222 Places</span>
           </div>
           <div className="icon">
