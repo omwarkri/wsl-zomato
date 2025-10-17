@@ -12,7 +12,7 @@ const Cities = () => {
       <div className="cityContainer">
         <div className="city">
           <div className="cityLeft">
-            <h3>Bodakdev</h3>
+            <h3>Badlapur</h3>
             <span>345 Places</span>
           </div>
           <div className="icon">
@@ -39,7 +39,7 @@ const Cities = () => {
         </div>
         <div className="city">
           <div className="cityLeft">
-            <h3>Navrangpura</h3>
+            <h3>Ambernath</h3>
             <span>302 Places</span>
           </div>
           <div className="icon">
