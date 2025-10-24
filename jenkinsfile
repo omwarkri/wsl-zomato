@@ -2,24 +2,18 @@ pipeline {
     agent any
 
     environment {
-        DOCKER_USERNAME = credentials('DOCKER_USERNAME')  // Jenkins credentials ID for Docker username
-        DOCKER_PASSWORD = credentials('DOCKER_PASSWORD')  // Jenkins credentials ID for Docker password/token
-        IMAGE_NAME = 'omwarkri123/awsconfig-app:latest'   // Docker image
-        REGISTRY = 'docker.io'                            // Default Docker registry
-        GITHUB_USERNAME = 'YOUR_GITHUB_USERNAME'         // Replace with your GitHub username
+        DOCKER_USERNAME = credentials('DOCKER_USERNAME')
+        DOCKER_PASSWORD = credentials('DOCKER_PASSWORD')
+        IMAGE_NAME = 'omwarkri123/awsconfig-app:latest'
+        REGISTRY = 'docker.io'
+        GITHUB_USERNAME = 'omwarkri'
     }
 
     stages {
         stage('Clone Repository') {
             steps {
-                git url: "https://github.com/${GITHUB_USERNAME}/wsl-zomato.git", 
+                git url: "https://github.com/${GITHUB_USERNAME}/wsl-zomato.git",
                     credentialsId: 'wsl-zomato3'
-            }
-        }
-
-        stage('Build Docker Image') {
-            steps {
-                sh "docker build -t ${IMAGE_NAME} ."
             }
         }
 
@@ -28,6 +22,12 @@ pipeline {
                 script {
                     sh "echo ${DOCKER_PASSWORD} | docker login -u ${DOCKER_USERNAME} --password-stdin ${REGISTRY}"
                 }
+            }
+        }
+
+        stage('Build Docker Image') {
+            steps {
+                sh "docker build -t ${IMAGE_NAME} ."
             }
         }
 
@@ -56,4 +56,3 @@ pipeline {
         }
     }
 }
-
