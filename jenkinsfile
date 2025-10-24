@@ -2,28 +2,24 @@ pipeline {
     agent any
 
     environment {
-        DOCKERHUB_CREDENTIALS = 'wsl-zomato'
+        DOCKERHUB_CREDENTIALS = 'wsl-zomato' // Jenkins Docker credentials ID
         DOCKER_IMAGE = 'omwarkri123/awsconfig-app:latest'
     }
 
     stages {
-        stage('Clone Repository') {
-            steps {
-                git url: 'https://github.com/omwarkri/wsl-zomato.git', 
-                    credentialsId: 'wsl-zomato3'
-            }
-        }
-
         stage('Build Docker Image') {
             steps {
-                sh "docker build -t ${DOCKER_IMAGE} ."
+                script {
+                    sh "docker build -t ${DOCKER_IMAGE} ."
+                }
             }
         }
 
         stage('Push Docker Image') {
             steps {
                 script {
-                    docker.withRegistry('', DOCKERHUB_CREDENTIALS) {
+                    // Logs in to DockerHub using Jenkins stored credentials
+                    withDockerRegistry([credentialsId: "${DOCKERHUB_CREDENTIALS}", url: '']) {
                         sh "docker push ${DOCKER_IMAGE}"
                     }
                 }
@@ -32,8 +28,13 @@ pipeline {
 
         stage('Deploy Container') {
             steps {
-                sh "docker rm -f awsconfig-app || true"
-                sh "docker run -d --name awsconfig-app -p 3000:3000 ${DOCKER_IMAGE}"
+                script {
+                    // Remove old container if exists and run new container
+                    sh """
+                        docker rm -f awsconfig-app || true
+                        docker run -d --name awsconfig-app -p 3000:3000 ${DOCKER_IMAGE}
+                    """
+                }
             }
         }
     }
